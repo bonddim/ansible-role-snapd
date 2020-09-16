@@ -1,0 +1,34 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Dmytro Bondar
+  license: "license (MIT)"
+
+  role_name: snapd
+  description: "Install snap core and snap packages from https://snapcraft.io/store"
+  github_branch: main
+
+  min_ansible_version: 2.8
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - 31
+        - 32
+    - name: EL
+      versions:
+        - 7
+        - 8
+  galaxy_tags:
+    - snap
+    - snapd
+    - snapcore
+    - snapcraft
+    - linux
