@@ -1,0 +1,48 @@
+---
+language: python
+cache: pip
+
+os: linux
+dist: bionic
+
+git:
+  depth: false
+  quiet: true
+
+if: type = push
+
+env:
+  global:
+    - ROLE_NAME: snapd
+    - ANSIBLE_ROLES_PATH: ${HOME}/.ansible/roles
+  jobs:
+    - MOLECULE_DISTRO: ubuntu/20.04
+    - MOLECULE_DISTRO: ubuntu/18.04
+    - MOLECULE_DISTRO: ubuntu/16.04
+    - MOLECULE_DISTRO: debian/10
+    - MOLECULE_DISTRO: fedora/32
+    - MOLECULE_DISTRO: fedora/31
+    - MOLECULE_DISTRO: centos/8
+    - MOLECULE_DISTRO: centos/7
+
+install: pip install ansible ansible-lint yamllint molecule
+
+before_script:
+  # Get molecule playbooks for delegated driver
+  - mkdir -p ${ANSIBLE_ROLES_PATH}
+  - git clone https://github.com/bonddim/molecule-playbooks ${ANSIBLE_ROLES_PATH}/molecule-playbooks
+  # Link current directory to roles path
+  - ln -s $PWD ${ANSIBLE_ROLES_PATH}/bonddim.${ROLE_NAME}
+  # Get yamllint config
+  - curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
+  # Initialize LXD
+  - sudo chmod ugo+rw /var/lib/lxd/unix.socket
+  - lxd init --auto
+
+script: molecule test
+
+notifications:
+  webhooks:
+    urls: https://galaxy.ansible.com/api/v1/notifications/
+    if: (tag IS present) OR (branch = main)
+    on_failure: never
