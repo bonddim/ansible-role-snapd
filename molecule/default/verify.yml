@@ -1,0 +1,21 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Install fuse packages to run snap in container
+      package:
+        name: fuse, squashfuse
+        state: present
+
+    - name: Install hello-world snap
+      snap:
+        name: hello-world
+
+    - name: Run hello-world snap
+      command: hello-world
+      register: snap_hello
+
+    - name: Verify command output
+      assert:
+        that: "'Hello World!' in snap_hello.stdout"

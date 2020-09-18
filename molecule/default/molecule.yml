@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+  enabled: false
+driver:
+  name: delegated
+lint: |
+  set -e
+  yamllint .
+  ansible-lint -p .
+platforms:
+  - name: instance
+    source:
+      alias: "${MOLECULE_DISTRO:-ubuntu/18.04}"
+provisioner:
+  name: ansible
+  connection_options:
+    ansible_connection: lxd
+  playbooks:
+    create: "${ANSIBLE_ROLES_PATH}/molecule-playbooks/lxd/create.yml"
+    prepare: "${ANSIBLE_ROLES_PATH}/molecule-playbooks/lxd/prepare.yml"
+    destroy: "${ANSIBLE_ROLES_PATH}/molecule-playbooks/lxd/destroy.yml"
+verifier:
+  name: ansible
