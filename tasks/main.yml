@@ -18,6 +18,17 @@
     enablerepo: "{{ (ansible_distribution == 'CentOS') | ternary('epel', omit) }}"
   tags: snap, snap-install
 
+- name: Install fuse packages to run snaps in virtualized environments
+  become: true
+  package:
+    name: fuse, squashfuse
+    state: present
+    enablerepo: "{{ (ansible_distribution == 'CentOS') | ternary('epel', omit) }}"
+  when:
+    - ansible_virtualization_role == "guest"
+    - ansible_distribution != "Debian" or ansible_distribution_version | int >= 10
+  tags: snap, snap-install
+
 - name: Enable and start snapd socket
   become: true
   service:
@@ -33,6 +44,15 @@
     src: /var/lib/snapd/snap
     state: link
   when: ansible_os_family == "RedHat"
+  tags: snap, snap-install
+
+- name: Install snap core
+  become: true
+  snap:
+    name: core
+  register: result
+  until: result is not failed
+  retries: 3
   tags: snap, snap-install
 
 - name: Install packages from snap

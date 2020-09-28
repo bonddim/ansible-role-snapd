@@ -3,11 +3,6 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Install fuse packages to run snap in container
-      package:
-        name: fuse, squashfuse
-        state: present
-
     - name: Install hello-world snap
       snap:
         name: hello-world
