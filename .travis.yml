@@ -32,7 +32,7 @@ before_script:
   # Get yamllint config
   - curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
   # Initialize LXD
-  # - sudo chmod ugo+rw /var/lib/lxd/unix.socket
+  - sudo chmod ugo+rw /var/snap/lxd/common/lxd/unix.socket
   - lxd init --auto
 
 script: molecule test
