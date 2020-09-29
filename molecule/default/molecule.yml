@@ -17,8 +17,8 @@ provisioner:
   connection_options:
     ansible_connection: lxd
   playbooks:
-    create: "${HOME}/.ansible/roles/molecule-playbooks/lxd/create.yml"
-    prepare: "${HOME}/.ansible/roles/molecule-playbooks/lxd/prepare.yml"
-    destroy: "${HOME}/.ansible/roles/molecule-playbooks/lxd/destroy.yml"
+    create: ../resources/lxd/create.yml
+    prepare: ../resources/lxd/prepare.yml
+    destroy: ../resources/lxd/destroy.yml
 verifier:
   name: ansible

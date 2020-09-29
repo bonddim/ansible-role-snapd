@@ -26,11 +26,6 @@ env:
 install: pip install ansible ansible-lint yamllint molecule
 
 before_script:
-  # Get molecule playbooks for delegated driver
-  - mkdir -p ${HOME}/.ansible/roles
-  - git clone https://github.com/bonddim/molecule-playbooks ${HOME}/.ansible/roles/molecule-playbooks
-  # Link current directory to roles path
-  - ln -s $PWD ${HOME}/.ansible/roles/bonddim.${ROLE_NAME}
   # Get yamllint config
   - curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
   # Initialize LXD
