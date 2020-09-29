@@ -9,8 +9,6 @@ git:
   depth: false
   quiet: true
 
-if: type = push
-
 env:
   global:
     - ROLE_NAME: snapd
