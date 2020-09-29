@@ -1,0 +1,3 @@
+[submodule "resources"]
+	path = molecule/resources
+	url = https://github.com/bonddim/molecule-playbooks
