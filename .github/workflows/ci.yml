@@ -8,6 +8,7 @@ on:
 
 jobs:
   molecule:
+    name: Test on ${{ matrix.distro }}
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -43,6 +44,3 @@ jobs:
           MOLECULE_DISTRO: ${{ matrix.distro }}
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: true
-
-      - name: Import role to ansible galaxy
-        run: ansible-galaxy role import --api-key ${{ secrets.GALAXY_TOKEN }} ${{ github.repository_owner }} ${{ github.event.repository.name }}
