@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  molecule:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        distro:
+          - ubuntu/20.04
+          - ubuntu/18.04
+          - debian/10
+          - fedora/32
+          - fedora/31
+          - centos/7
+          - centos/8
+
+    steps:
+      - name: Checks-out repository
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies
+        run: pip3 install molecule yamllint ansible-lint
+
+      - name: Get latest yamllint config
+        run: curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
+
+      - name: Initialize LXD
+        run: |
+          sudo chmod o+g /var/lib/lxd/unix.socket
+          lxd init --auto
+
+      - name: Run Molecule tests
+        run: molecule test
+        env:
+          MOLECULE_DISTRO: ${{ matrix.distro }}
+
+      - name: Send webhook to galaxy
+        uses: distributhor/workflow-webhook@v1
+        env:
+          webhook_url: "https://galaxy.ansible.com/api/v1/notifications/"
