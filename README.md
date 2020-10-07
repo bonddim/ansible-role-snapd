@@ -6,6 +6,7 @@ Ansible Role: snapd
 [![Ansible Quality Score](https://img.shields.io/ansible/quality/50784?logo=ansible)](https://galaxy.ansible.com/bonddim/snapd)
 [![Workflow](https://github.com/bonddim/ansible-role-snapd/workflows/CI/badge.svg)](https://github.com/bonddim/ansible-role-snapd/actions)
 [![License](https://img.shields.io/github/license/bonddim/ansible-role-snapd)](https://github.com/bonddim/ansible-role-snapd/blob/main/LICENSE)
+
 Install snap core and packages from https://snapcraft.io/store
 
 Supported platforms
