@@ -27,16 +27,14 @@ jobs:
         with:
           submodules: true
 
+      - name: LXD init
+        uses: bonddim/action-lxd@v1
+
       - name: Install dependencies
         run: sudo python3 -m pip install --quiet ansible-lint molecule yamllint
 
       - name: Get latest yamllint config
         run: curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
-
-      - name: Initialize LXD
-        run: |
-          sudo chmod o+g /var/snap/lxd/common/lxd/unix.socket
-          lxd init --auto
 
       - name: Run Molecule tests
         run: molecule test
