@@ -24,11 +24,12 @@ jobs:
     steps:
       - name: Checks-out repository
         uses: actions/checkout@v2
-        with:
-          submodules: true
 
       - name: LXD init
         uses: bonddim/action-lxd@v1
+
+      - name: Get molecule playbooks
+        run: git clone --quiet --depth=1 https://github.com/bonddim/molecule-playbooks ${HOME}/.ansible/molecule-playbooks
 
       - name: Install dependencies
         run: sudo python3 -m pip install --quiet ansible-lint molecule yamllint
