@@ -15,7 +15,7 @@
     name: snapd
     state: present
     update_cache: true
-    enablerepo: "{{ (ansible_distribution == 'CentOS') | ternary('epel', omit) }}"
+    enablerepo: "{{ (ansible_distribution == 'CentOS') | ternary('cr,epel', omit) }}"
   tags: snap, snap-install
 
 - name: Install fuse packages to run snaps in virtualized environments
