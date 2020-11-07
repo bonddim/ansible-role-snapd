@@ -1,7 +1,10 @@
-name: CI
+---
+name: Molecule
 
 on:
   push:
+    branches:
+      - '*'
   pull_request:
   schedule:
     - cron: '0 0 * * 0'
@@ -10,6 +13,9 @@ jobs:
   molecule:
     name: Test on ${{ matrix.distro }}
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: bonddim.snapd
     strategy:
       matrix:
         distro:
@@ -24,15 +30,14 @@ jobs:
     steps:
       - name: Checks-out repository
         uses: actions/checkout@v2
+        with:
+          path: bonddim.snapd
 
       - name: LXD init
         uses: bonddim/action-lxd@v1
 
-      - name: Get molecule playbooks
-        run: git clone --quiet --depth=1 https://github.com/bonddim/molecule-playbooks ${HOME}/.ansible/molecule-playbooks
-
       - name: Install dependencies
-        run: sudo python3 -m pip install --quiet ansible-lint molecule yamllint
+        run: sudo python3 -m pip install ansible-lint yamllint git+https://github.com/bonddim/molecule-lxd
 
       - name: Get latest yamllint config
         run: curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
@@ -43,12 +48,3 @@ jobs:
           MOLECULE_DISTRO: ${{ matrix.distro }}
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: true
-
-  import:
-    name: Import to Galaxy
-    runs-on: ubuntu-latest
-    needs: molecule
-    if: contains(github.ref, 'main') || contains(github.ref, 'tags')
-    steps:
-      - name: Import role to ansible galaxy
-        run: ansible-galaxy role import --api-key ${{ secrets.GALAXY_TOKEN }} ${GITHUB_REPOSITORY_OWNER} ${GITHUB_REPOSITORY#*/}

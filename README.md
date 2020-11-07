@@ -4,7 +4,7 @@ Ansible Role: snapd
 [![Ansible Role](https://img.shields.io/ansible/role/50784?label=galaxy&logo=ansible)](https://galaxy.ansible.com/bonddim/snapd)
 [![Ansible Role Downloads](https://img.shields.io/ansible/role/d/50784?logo=ansible)](https://galaxy.ansible.com/bonddim/snapd)
 [![Ansible Quality Score](https://img.shields.io/ansible/quality/50784?logo=ansible)](https://galaxy.ansible.com/bonddim/snapd)
-[![Workflow](https://img.shields.io/github/workflow/status/bonddim/ansible-role-snapd/CI?logo=github)](https://github.com/bonddim/ansible-role-snapd/actions)
+[![Workflow](https://img.shields.io/github/workflow/status/bonddim/ansible-role-snapd/Molecule?logo=github)](https://github.com/bonddim/ansible-role-snapd/actions)
 [![License](https://img.shields.io/github/license/bonddim/ansible-role-snapd)](https://github.com/bonddim/ansible-role-snapd/blob/main/LICENSE)
 
 Install snap core and packages from https://snapcraft.io/store
