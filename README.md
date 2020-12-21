@@ -13,7 +13,7 @@ Supported platforms
 ------------
   - Debian based distributions
   - CentOS 7/8
-  - Fedora 31/32
+  - Fedora 31/32/33
 
 Requirements
 ------------
