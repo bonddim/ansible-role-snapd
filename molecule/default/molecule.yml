@@ -6,7 +6,7 @@ driver:
   name: lxd
 lint: |
   set -e
-  ansible-lint --exclude .github --exclude molecule -p
+  ansible-lint
 platforms:
   - name: instance
     source:

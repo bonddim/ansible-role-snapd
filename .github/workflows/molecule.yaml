@@ -4,13 +4,15 @@ name: Molecule
 on:
   push:
     branches:
-      - '*'
+      - '**'
   pull_request:
   schedule:
     - cron: '0 0 * * 0'
 
 jobs:
   molecule:
+    # skip job on pull requests from base repository
+    if: github.event.pull_request.head.repo.full_name != github.repository
     name: Test on ${{ matrix.distro }}
     runs-on: ubuntu-20.04
     defaults:
@@ -28,22 +30,13 @@ jobs:
           - centos/8
 
     steps:
-      - name: Checks-out repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           path: bonddim.snapd
-
-      - name: LXD init
-        uses: bonddim/action-lxd@v1
-
+      - uses: bonddim/action-lxd-init@stable
       - name: Install dependencies
-        run: sudo python3 -m pip install ansible-lint yamllint molecule-lxd
-
-      - name: Get latest yamllint config
-        run: curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
-
-      - name: Run Molecule tests
-        run: molecule test
+        run: sudo python3 -m pip install --no-cache-dir --requirement .github/workflows/requirements.txt
+      - run: molecule test
         env:
           MOLECULE_DISTRO: ${{ matrix.distro }}
           PY_COLORS: '1'
