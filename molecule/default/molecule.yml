@@ -5,9 +5,9 @@ dependency:
 driver:
   name: lxd
 lint: |
+lint: |
   set -e
-  yamllint .
-  ansible-lint -p .
+  ansible-lint --exclude .github --exclude molecule -p
 platforms:
   - name: instance
     source:

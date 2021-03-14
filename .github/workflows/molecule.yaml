@@ -37,7 +37,7 @@ jobs:
         uses: bonddim/action-lxd@v1
 
       - name: Install dependencies
-        run: sudo python3 -m pip install ansible-lint yamllint molecule-lxd
+        run: sudo python3 -m pip install 'ansible-lint==5.0.1' yamllint molecule-lxd
 
       - name: Get latest yamllint config
         run: curl -sSo .yamllint https://raw.githubusercontent.com/ansible/galaxy/master/galaxy/importer/linters/yamllint.yaml
