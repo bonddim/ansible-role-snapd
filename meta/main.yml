@@ -4,11 +4,10 @@ dependencies: []
 galaxy_info:
   author: Dmytro Bondar
   license: "license (MIT)"
-
+  namespace: bonddim
   role_name: snapd
   description: "Install snap core and snap packages from https://snapcraft.io/store"
   github_branch: main
-
   min_ansible_version: 2.8
 
   platforms:
