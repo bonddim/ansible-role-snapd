@@ -13,13 +13,12 @@ jobs:
   molecule:
     # skip job on pull requests from base repository
     if: github.event.pull_request.head.repo.full_name != github.repository
-    name: Test on ${{ matrix.distro }}
-    runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: bonddim.snapd
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
+        ansible:
+          - ansible<2.10
         distro:
           - ubuntu/20.04
           - ubuntu/18.04
@@ -28,14 +27,18 @@ jobs:
           - fedora/33
           - centos/7
           - centos/8
+        include:
+          - ansible: ansible>=2.10
+            distro: ubuntu/20.04
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          path: bonddim.snapd
+          python-version: '3.x'
       - uses: bonddim/action-lxd-init@stable
       - name: Install dependencies
-        run: sudo python3 -m pip install --no-cache-dir --requirement .github/workflows/requirements.txt
+        run: python3 -m pip install --no-cache-dir --requirement .github/workflows/requirements.txt '${{ matrix.ansible }}'
       - run: molecule test
         env:
           MOLECULE_DISTRO: ${{ matrix.distro }}
